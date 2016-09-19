@@ -1,0 +1,483 @@
+### this is a comment
+### a Rule definition begins with ##,
+### while a comment begins with ###
+
+STAGE:1
+{
+	##prep adjusting Rule
+	w1:.*
+	d1_2:prep
+	w2:.*
+	r2_3:prep
+	w3:.*
+	relationName:prep
+	from:1
+	to:3
+	
+	##remove as well as Rule
+	w1:well
+	r1_2:.*
+	w2:as
+	relationName:void
+	from:1
+	to:2
+	
+	##remove xcomp Rule
+	w1:.*
+	r1_2:xcomp
+	d1_2:ccomp
+	w2:.*
+	relationName:void
+	from:1
+	to:2
+	
+	##adjust conj Rule
+	w1:.*
+	d1_2:prep
+	w2:.*
+	r2_3:conj
+	w3:.*
+	relationName:conj
+	from:1
+	to:3
+	
+	##adjust prep Rule
+	w1:.*
+	d1_2:prep
+	w2:.*
+	d2_3:conj
+	w3:.*
+	relationName:prep
+	from:1
+	to:3
+	
+	##remove mwe Rule
+	w1:.*
+	d1_2:cc
+	w2:.*
+	r2_3:mwe
+	w3:.*
+	relationName:void
+	from:1
+	to:2
+	
+	##adjust mwe Rule
+	w1:.*
+	d1_2:prep
+	p2:IN|TO|VBG
+	d2_3:pobj
+	w3:.*
+	d2_4:mwe
+	w4:.*
+	relationName:mwe_helper
+	from: 1
+	to: 4
+	
+	##remove parataxis Rule
+	w1:.*
+	r1_2:parataxis
+	d1_2:^(?!parataxis|tmod$).*
+	w2:.*
+	relationName:void
+	from:1
+	to:2
+	
+	##remove tmod Rule
+	w1:.*
+	r1_2:tmod
+	d1_2:parataxis
+	w2:.*
+	relationName:void
+	from:1
+	to:2
+}
+
+STAGE:2
+{
+	##next_to Rule
+	w1:.*
+	r1_2:.*
+	w2:next
+	r2_3:.*
+	w3:to
+	r3_4:pobj
+	w4:.*
+	relationName:prep_{w2}_to
+	from: 1
+	to: 4
+	
+	##prep_in Rule
+	w1:.*
+	d1_2:prep
+	p2:IN|TO|VBG
+	d2_3:pobj
+	w3:.*
+	relationName:prep_{w2}
+	from: 1
+	to: 3
+	
+	##such_as Rule
+	w1:.*
+	r1_2:prep
+	w2:as
+	r2_3:pobj
+	w3:.*
+	r2_4:mwe
+	w4:such
+	relationName:prep_such_as
+	from:1
+	to:3
+	
+	##punct Rule
+	w1:.*
+	d1_2:prep
+	p2:IN|TO
+	r2_3:pobj
+	w3:.*
+	r2_4:punct
+	w4:.*
+	relationName:punct
+	from:1
+	to:4
+	
+	##prepc_in Rule
+	w1:.*
+	r1_2:prep
+	p2:IN|TO
+	r2_3:pcomp
+	w3:.*
+	relationName:prepc_{w2}
+	from: 1
+	to: 3
+	
+	##conj_and Rule
+	w1:.*
+	r1_2:cc
+	r1_3:conj
+	w2:and|or|but|nor|in|only|as|at|vs\.|&|versus|and/or
+	w3:.*
+	relationName:conj_{w2}
+	from: 1
+	to: 3
+	
+	##negcc Rule
+	w1:.*
+	r1_2:cc
+	r1_3:conj
+	w2:not|instead|rather
+	w3:.*
+	relationName:conj_negcc
+	from:1
+	to:3
+	
+	##remove Rule
+	w1:.*
+	r1_2:xsubj|ref|possessive
+	w2:.*
+	relationName:void
+	from:1
+	to:2
+	
+	##advmod Rule
+	w1:.*
+	d1_2:prep
+	w2:.*
+	r2_3:advmod
+	w3:.*
+	relationName:advmod
+	from:1
+	to:3
+	
+	##dep Rule
+	w1:.*
+	d1_2:prep
+	w2:.*
+	r2_3:dep
+	w3:.*
+	relationName:dep
+	from:1
+	to:3
+	
+	##owing Rule
+	w1:.*
+	r1_2:prep
+	w2:.*
+	r2_3:pcomp
+	w3:to
+	relationName:prepc_{w2}_{w3}
+	from:1
+	to:3
+}
+
+STAGE:3
+{
+	##adjust prep_as (such_as) Rule
+	w1:.*
+	r1_2:prep_as
+	w2:such
+	relationName:prep_such_as
+	from:1
+	to:2
+
+	##remove prep_ Rule
+	w1:.*
+	r1_2:prep_[^_]+
+	w2:.*
+	d1_2:prep_[^_]+_.+
+	relationName:void
+	from:1
+	to:2
+
+	##adjust conj_&
+	w1:.*
+	r1_2:conj_&
+	w2:.*
+	relationName:conj_and
+	from:1
+	to:2
+	
+	##adjust conj_and
+	w1:.*
+	r1_3:conj_and
+	w2:.*
+	r1_2:pobj
+	w3:.*
+	r3_4:pobj
+	w4:.*
+	relationName:conj_and
+	from:2
+	to:4
+	
+	##remove pobj Rule
+	w1:.*
+	r1_2:prep
+	p2:IN|TO|VBG
+	r2_3:pobj
+	w3:.*
+	relationName:void
+	from: 1
+	to: 3
+	
+	##remove prep Rule
+	w1:.*
+	r1_2:prep
+	w2:.*
+	r2_3:advmod
+	w3:.*
+	relationName:void
+	from:1
+	to:3
+
+	##adjust pobj Rule
+	w1:.*
+	d1_2:prep[c]?_.+
+	w2:to|of|with
+	r2_3:pobj
+	w3:.*
+	relationName:pobj
+	from:1
+	to:3
+	
+	##remove conj_and Rule
+	w1:.*
+	r1_2:cc
+	w2:.*
+	d1_3:conj_and
+	w3:.*
+	relationName:void
+	from:1
+	to:2
+	
+	##prep_out_of Rule
+	p1:CD
+	r1_2:advmod
+	w2:.*
+	r1_3:prep_of
+	w3:.*
+	relationName:prep_{w2}_of
+	from:1
+	to:3
+	
+	##prep_*_of Rule
+	w1:.*
+	r1_2:advmod
+	w2:.*
+	r2_3:prepc_of
+	w3:.*
+	relationName:prepc_{w2}_of
+	from:1
+	to:3
+	
+	##prep_*_to Rule
+	w1:.*
+	r1_2:advmod
+	w2:.*
+	r1_3:prep_to
+	w3:.*
+	relationName:prep_{w2}_to
+	from:1
+	to:3
+	
+	##prep_*_to2 Rule
+	w1:.*
+	r1_2:advmod
+	w2:.*
+	r2_3:prep_to
+	w3:.*
+	relationName:prep_{w2}_to
+	from:1
+	to:3
+	
+	##according_to Rule
+	w1:.*
+	r1_2:.*
+	w2:[aA]ccording|[dD]ue
+	r2_3:prep_to
+	w3:.*
+	relationName:prep_{w2}_to
+	from:1
+	to:3
+	
+	##in_addition_to Rule
+	w1:.*
+	r1_2:prep_in
+	w2:addition
+	r2_3:prep_to
+	w3:.*
+	relationName:prep_in_addition_to
+	from: 1
+	to: 3
+	
+	##in_front_of Rule
+	w1:.*
+	r1_2:prep_in
+	w2:front
+	r2_3:prep_of
+	w3:.*
+	relationName:prep_in_front_of
+	from:1
+	to:3
+	
+	##along_with Rule
+	w1:.*
+	r1_2:advmod
+	w2:[aA]long|[tT]ogether
+	r2_3:prep_with
+	w3:.*
+	relationName:prep_{w2}_with
+	from:1
+	to:3
+	
+	##along_with Rule (prepc)
+	w1:.*
+	r1_2:prepc_along|prepc_together
+	w2:with
+	relationName:{r1_2}_with
+	from:1
+	to:2
+	
+	##out_of Rule
+	w1:.*
+	r1_2:prt
+	w2:out|off
+	r1_3:prep_of
+	w3:.*
+	relationName:prep_{w2}_of
+	from:1
+	to:3
+
+	##as_of Rule (prepc)
+	w1:.*
+	r1_2:prepc_as|prepc_out
+	w2:of
+	relationName:{r1_2}_of
+	from:1
+	to:2
+	
+	##because_of Rule
+	w1:.*
+	r1_2:prep_of|prep_to
+	w2:.*
+	w3:of|to
+	r1_4:mwe_helper
+	r3_4:mwe
+	w4:.*
+	relationName:prep_{w4}_{w3}
+	from:1
+	to:2
+	
+	##pcomp Rule
+	w1:.*
+	r1_2:prepc_.*
+	w2:.*
+	r2_3:pcomp
+	w3:.*
+	relationName:pcomp
+	from:1
+	to:3
+	
+	##agent Rule (auxpass)
+	w1:.*
+	r1_2:prep[c]?_by
+	d1_3:auxpass
+	w2:.*
+	w3:.*
+	relationName:agent
+	from:1
+	to:2
+	
+	##agent Rule (vmod)
+	w1:.*
+	d1_2:vmod
+	w2:.*
+	r2_3:prep_by
+	w3:.*
+	relationName:agent
+	from:2
+	to:3
+	
+	##prep_to Rule
+	w1:[fF]rom
+	r1_2:prep_to
+	w2:.*
+	d3_4:prep_from
+	w3:.*
+	w4:.*
+	relationName:prep_to
+	from:3
+	to:2
+}
+
+STAGE:4
+{
+
+	##cc process
+	w1:.*
+	d1_2:dobj|nsubj
+	w2:.*
+	d2_3:conj.*
+	w3:.*
+	relationName:{d1_2}
+	from:1
+	to:3
+	
+	##cc process
+	w1:.*
+	d1_2:prep.*
+	w2:.*
+	d2_3:conj.*
+	w3:.*
+	relationName:{d1_2}
+	from:1
+	to:3
+	
+	##cc process
+	w1:.*
+	d1_2:nsubj
+	w2:.*
+	d1_3:conj.*
+	w3:.*
+	relationName:{d1_2}
+	from:3
+	to:2
+}

@@ -1,0 +1,268 @@
+### this is a comment
+### a Rule definition begins with ##,
+### while a comment begins with ###
+
+STAGE:1
+{
+	##MO adjusting Rule
+	w1:.*
+	d1_2:MO
+	w2:.*
+	r2_3:MO
+	w3:.*
+	relationName:MO
+	from:1
+	to:3
+	
+	##remove xcomp Rule
+	w1:.*
+	r1_2:xcomp
+	d1_2:ccomp
+	w2:.*
+	relationName:void
+	from:1
+	to:2
+	
+	##adjust conj Rule
+	w1:.*
+	d1_2:MO
+	w2:.*
+	r2_3:CJ
+	w3:.*
+	relationName:conj
+	from:1
+	to:3
+	
+	##adjust MO Rule
+	w1:.*
+	d1_2:MO
+	w2:.*
+	d2_3:CJ
+	w3:.*
+	relationName:MO
+	from:1
+	to:3
+	
+	##remove mwe Rule
+	w1:.*
+	d1_2:CD
+	w2:.*
+	r2_3:mwe
+	w3:.*
+	relationName:void
+	from:1
+	to:2
+	
+	##remove parataxis Rule
+	w1:.*
+	r1_2:parataxis
+	d1_2:^(?!parataxis$).*
+	w2:.*
+	relationName:void
+	from:1
+	to:2
+}
+
+STAGE:2
+{
+	##MO_in Rule
+	w1:.*
+	r1_2:MO
+	p2:APPR|APPRART
+	r2_3:NK
+	w3:.*
+	relationName:MO_{l2}
+	from: 1
+	to: 3
+	
+	##such_as Rule
+	w1:.*
+	r1_2:MO
+	w2:wie
+	r2_3:NK
+	w3:.*
+	r2_4:mwe
+	w4:so
+	relationName:MO_so_wie
+	from:1
+	to:3
+	
+	##punct Rule
+	w1:.*
+	d1_2:MO
+	p2:APPR|TO
+	r2_3:NK
+	w3:.*
+	r2_4:punct
+	w4:.*
+	relationName:punct
+	from:1
+	to:4
+	
+	##MOc_in Rule
+	w1:.*
+	r1_2:MO
+	p2:APPR|TO
+	r2_3:pcomp
+	w3:.*
+	relationName:MOc_{w2}
+	from: 1
+	to: 3
+	
+	##conj_and Rule
+	w1:.*
+	r1_2:CD
+	r2_3:CJ
+	w2:und|oder|aber|noch|in|nur|wie|bei|vs\.|&|versus|und/oder
+	w3:.*
+	relationName:CJ_{w2}
+	from: 1
+	to: 3
+	
+	##negcc Rule
+	w1:.*
+	r1_2:CD
+	r1_3:CJ
+	w2:nicht|stattdessen|eher
+	w3:.*
+	relationName:CJ_negcc
+	from:1
+	to:3
+	
+	##remove Rule
+	w1:.*
+	r1_2:xsubj|ref|possessive
+	w2:.*
+	relationName:void
+	from:1
+	to:2
+	
+	##advmod Rule
+	w1:.*
+	d1_2:MO
+	w2:.*
+	r2_3:advmod
+	w3:.*
+	relationName:advmod
+	from:1
+	to:3
+	
+	##dep Rule
+	w1:.*
+	d1_2:MO
+	w2:.*
+	r2_3:dep
+	w3:.*
+	relationName:dep
+	from:1
+	to:3
+	
+	##owing Rule
+	w1:.*
+	r1_2:MO
+	w2:.*
+	r2_3:pcomp
+	w3:to
+	relationName:MOc_{w2}_{w3}
+	from:1
+	to:3
+}
+
+STAGE:3
+{
+	##adjust MO_as (such_as) Rule
+	w1:.*
+	r1_2:MO_wie
+	w2:so
+	relationName:MO_so_wie
+	from:1
+	to:2
+
+	##remove MO_ Rule
+	w1:.*
+	r1_2:MO_[^_]+
+	w2:.*
+	d1_2:MO_[^_]+_.+
+	relationName:void
+	from:1
+	to:2
+
+	##adjust CJ_&
+	w1:.*
+	r1_2:CJ_&
+	w2:.*
+	relationName:CJ_und
+	from:1
+	to:2
+	
+	##remove MO Rule
+	w1:.*
+	r1_2:MO
+	w2:.*
+	r2_3:advmod
+	w3:.*
+	relationName:void
+	from:1
+	to:3
+
+	##adjust NK Rule
+	w1:.*
+	d1_2:MO[c]?_.+
+	w2:zu|von|mit
+	r2_3:NK
+	w3:.*
+	relationName:NK
+	from:1
+	to:3
+	
+	##remove CJ_und Rule
+	w1:.*
+	r1_2:cc
+	w2:.*
+	d1_3:CJ_und
+	w3:.*
+	relationName:void
+	from:1
+	to:2
+
+	##pcomp Rule
+	w1:.*
+	r1_2:MOc_.*
+	w2:.*
+	r2_3:pcomp
+	w3:.*
+	relationName:pcomp
+	from:1
+	to:3
+	
+	##agent Rule (auxpass)
+	w1:.*
+	r1_2:MO[c]?_von
+	d1_3:auxpass
+	w2:.*
+	w3:.*
+	relationName:agent
+	from:1
+	to:2
+	
+	##agent Rule (vmod)
+	w1:.*
+	d1_2:vmod
+	w2:.*
+	r2_3:MO_von
+	w3:.*
+	relationName:agent
+	from:2
+	to:3
+	
+	##MO_to Rule
+	w1:[fF]rom
+	r1_2:MO_zu
+	w2:.*
+	d3_4:MO_von
+	w3:.*
+	w4:.*
+	relationName:MO_zu
+	from:3
+	to:2
+}
