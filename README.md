@@ -60,13 +60,20 @@ Installation
 
 		pip install -r requirements.txt
 		
-3. Download java dependencies (Mate-Tools with models and JoBimText).
+3. In case you don't already have that, download NLTK's tokenization model.
 
-		./ext/load_java_dependencies.sh
+		python -c "import nltk; nltk.download('punkt')"
 		
-4. (Optional) To produce graphical output with the parsing script, [graphviz](http://www.graphviz.org/) has to be installed and callable from command line.
+4. Download java dependencies (Mate-Tools with models and JoBimText (173M)).
 
-5. (Optional) To produce graphical output in the web demo, you need a copy of [brat](http://brat.nlplab.org/) and point to it in the server script.
+		cd ext
+		./load_java_dependencies.sh
+		
+5. Download the [Mate-Tools parsing model](https://docs.google.com/uc?export=download&id=0B-qbj-8rtoUMLUg5NGpBVW9JNkE) (350M) manually and save it as `ext/mate-model/parser-ger.model`. (The script can't get around the large file warning in Google Drive)
+		
+6. (Optional) To produce graphical output with the parsing script, [graphviz](http://www.graphviz.org/) has to be installed and callable from command line.
+
+7. (Optional) To produce graphical output in the web demo, you need a copy of [brat](http://brat.nlplab.org/) and point to it in the server script.
 
 
 
