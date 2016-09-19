@@ -74,13 +74,13 @@ def add_morph_features(file_parsed, sentences):
                 token[7] = morph[i][token[0]]
     return sentences
 
-def create_dep_graphs_from_conll(sentences_conll,HOME_DIR):
+def create_dep_graphs_from_conll(sentences_conll):
 
     graphs = []
     
     for sentence_conll in sentences_conll:
     
-        curGraph = GraphWrapper("",HOME_DIR)
+        curGraph = GraphWrapper("","")
         nodesMap = {}
         
         # nodes
@@ -166,7 +166,7 @@ def missing_children(treeNode,graphNode):
     return []
 
 
-def read_dep_graphs(sent_ids,file_parsed,HOME_DIR):
+def read_dep_graphs(sent_ids,file_parsed):
 
     if sent_ids:
         sentences_conll = get_conll_from_tiger_file(sent_ids)
@@ -174,7 +174,7 @@ def read_dep_graphs(sent_ids,file_parsed,HOME_DIR):
     if file_parsed:
         sentences_conll = get_conll_from_parser_file(file_parsed)
     
-    graphsFromFile = create_dep_graphs_from_conll(sentences_conll,HOME_DIR)
+    graphsFromFile = create_dep_graphs_from_conll(sentences_conll)
     trees = create_dep_trees_from_conll(sentences_conll,sent_ids)
     
     graphs = []

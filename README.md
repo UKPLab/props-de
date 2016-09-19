@@ -51,6 +51,13 @@ MacOS users might run into issues installing JPype. An instruction to manually i
 
 PROPEXTRACTION_DE_HOME_DIR
 
+Req:
+- pattern
+- nltk, punkt
+Envs:
+- PROPEXTRACTION_DE_HOME_DIR
+- JAVA_HOME
+
 Prerequisites
 -------------
 

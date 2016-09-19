@@ -16,17 +16,19 @@ class ParserDE(object):
 
     def __init__(self, jpype):
         self.isJPype = jpype
-        self.model_path_lem = 'parser/mate-model/lemma-ger.model'
-        self.model_path_parse = 'parser/mate-model/parser-ger.model'
+        self.tmp = 'tmp'
+        self.model_path_lem = 'ext/mate-model/lemma-ger.model'
+        self.model_path_parse = 'ext/mate-model/parser-ger.model'
         if not os.path.exists(self.model_path_lem) or not os.path.exists(self.model_path_lem):
-            raise 'mate-tools model not found!'
+            print 'mate-tools model not found!'
+            exit()
         self.setup()
         
     # load models if using jpype 
     def setup(self):
         if self.isJPype:
             print 'loading mate-tools'
-            startJVM(getDefaultJVMPath(), '-Xmx4g', '-Djava.class.path=parser/transition-1.30.jar')
+            startJVM(getDefaultJVMPath(), '-Xmx4g', '-Djava.class.path=ext/transition-1.30.jar')
             self.is2 = JPackage('is2')
             self.lem = self.is2.lemmatizer2.Lemmatizer(self.model_path_lem)
             self.parser = self.is2.transitionS2a.Parser(self.model_path_parse)
@@ -62,18 +64,18 @@ class ParserDE(object):
             
             conll.append(s2.toString())
             
-        output = codecs.open('working/parsed.conll09', 'w', encoding='utf-8')
+        output = codecs.open(self.tmp+'/parsed.conll09', 'w', encoding='utf-8')
         for s in conll:
             output.write(s + '\n')
         output.close()
         
-        return 'working/parsed.conll09'
+        return self.tmp+'/parsed.conll09'
     
     # call parser via external jar
     def parse_external(self, sentences):
 
         # save sentence to file 
-        input = codecs.open('working/input.conll09', 'w', encoding='utf-8')
+        input = codecs.open(self.tmp+'/input.conll09', 'w', encoding='utf-8')
         for sent in sentences:
             sent = sent.replace(u"“"," ").replace(u"”","")
             i = 1
@@ -86,18 +88,18 @@ class ParserDE(object):
         print "running mate-tools"
 
         # lemmatizing
-        cmd = 'java -cp parser/transition-1.30.jar is2.lemmatizer2.Lemmatizer -model '+self.model_path_lem+' -test working/input.conll09 -out working/lemmatized.conll09'
+        cmd = 'java -cp ext/transition-1.30.jar is2.lemmatizer2.Lemmatizer -model '+self.model_path_lem+' -test '+self.tmp+'/input.conll09 -out '+self.tmp+'/lemmatized.conll09'
         print "lemmatizing"
         res = os.popen(cmd)
         res.close()
 
         # parsing -> joint parsing and tagging
-        cmd = 'java -cp parser/transition-1.30.jar is2.transitionS2a.Parser -model '+self.model_path_parse+' -test working/lemmatized.conll09 -out working/parsed.conll09'
+        cmd = 'java -Xmx4g -cp ext/transition-1.30.jar is2.transitionS2a.Parser -model '+self.model_path_parse+' -test '+self.tmp+'/lemmatized.conll09 -out '+self.tmp+'/parsed.conll09'
         print "parsing + tagging"
         res = os.popen(cmd)
         res.close()
         
-        return 'working/parsed.conll09'
+        return self.tmp+'/parsed.conll09'
         
     # collapse dependencies in given file
     def collapse(self, file):
@@ -116,7 +118,7 @@ class ParserDE(object):
         output.close()
 
         # dependency collapsing
-        cmd = 'java -jar '+self.HOME_DIR+'parser/org.jobimtext.collapsing.jar -i '+self.HOME_DIR+file06+' -o '+self.HOME_DIR+' -sf -l de -r '+self.HOME_DIR+'parser/resources/german_modified.txt -f c -np -nt'
+        cmd = 'java -jar ext/org.jobimtext.collapsing.jar -i '+file06+' -o '+self.tmp+' -sf -l de -r ext/resources/german_modified.txt -f c -np -nt'
         print "collapsing"
         res = os.popen(cmd)
         res.close()

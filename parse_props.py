@@ -32,11 +32,6 @@ from propsde.applications.viz_tree import DepTreeVisualizer
 
 import propsde.applications.run as run
 
-#if not os.environ.get("PROPEXTRACTION_DE_HOME_DIR"):
-#    print 'Please set PROPEXTRACTION_DE_HOME_DIR pointing to the PropS directory!'
-#    exit()
-#HOME_DIR = os.environ.get("PROPEXTRACTION_DE_HOME_DIR")+os.sep
-
 def main(arguments):
     
     outputType = 'html'

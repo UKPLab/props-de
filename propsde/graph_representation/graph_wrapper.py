@@ -25,6 +25,7 @@ from propsde.graph_representation import newNode
 # from ctypes.wintypes import WORD
 
 from propsde.utils.utils import encode_german_characters, encode_german_chars
+import propsde.graph_representation.raising_subj_verbs as raising_subj_verbs
 
 
 FIRST_ENTITY_LABEL = "sameAs_arg"  # "first_entity"
@@ -85,13 +86,7 @@ class GraphWrapper(digraph):
         self.originalSentence_original = originalSentence
         self.HOME_DIR = HOME_DIR
         self.nodesMap = {}
-        self.modalVerbs=[]
-        fin = open(self.HOME_DIR+"raising_subj_verbs.txt")
-        for line in fin:
-            w = line.strip()
-            if w:
-                self.modalVerbs.append(w)
-        fin.close()
+        self.modalVerbs = raising_subj_verbs.verbs
         digraph.__init__(self)
         
     def set_original_sentence(self,s):

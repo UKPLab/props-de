@@ -8,7 +8,6 @@ from subprocess import call
 from bottle import route, run, get, post, request, response, static_file
 from nltk.tokenize.punkt import PunktSentenceTokenizer
 
-from propsde.webinterface.log import log
 from propsde.applications.run import loadParser, parseSentences
 from propsde.visualizations.brat_visualizer import BratVisualizer
 
@@ -40,11 +39,11 @@ def gparse():
     
 @route('/brat/<filename:path>')
 def server_static(filename):
-    return static_file(filename, root='./visualizations/brat')
+    return static_file(filename, root='./propsde/visualizations/brat')
     
 @route('/<filename>')
 def server_static(filename):
-    return static_file(filename, root='./webinterface')
+    return static_file(filename, root='./propsde/webinterface')
 
 loadParser()
 run(host='',port=PORT)

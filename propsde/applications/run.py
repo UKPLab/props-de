@@ -11,7 +11,6 @@ Call to MateParser and parsing of output
 """
 
 parser = None
-#HOME_DIR = os.environ.get("PROPEXTRACTION_DE_HOME_DIR", ".") + os.sep
 
 def loadParser():
     global parser
