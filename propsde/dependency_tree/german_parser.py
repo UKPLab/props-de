@@ -118,7 +118,7 @@ class ParserDE(object):
         output.close()
 
         # dependency collapsing
-        cmd = 'java -jar ext/org.jobimtext.collapsing.jar -i '+file06+' -o '+self.tmp+' -sf -l de -r ext/resources/german_modified.txt -f c -np -nt'
+        cmd = 'java -jar ext/org.jobimtext.collapsing.jar -i '+file06+' -o . -sf -l de -r ext/resources/german_modified.txt -f c -np -nt'
         print "collapsing"
         res = os.popen(cmd)
         res.close()

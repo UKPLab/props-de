@@ -23,7 +23,7 @@ Processing (EMNLP)},
   address   = {Austin, Texas},
   publisher = {Association for Computational Linguistics},
   pages     = {(to appear)},
-  url       = {(to appear)}
+  url       = {https://www.ukp.tu-darmstadt.de/publications/details/?no_cache=1&tx_bibtex_pi1%5Bpub_id%5D=TUD-CS-2016-0181}
 }
 ```
 
@@ -60,7 +60,7 @@ Installation
 
 		pip install -r requirements.txt
 		
-3. In case you don't already have that, download NLTK's tokenization model.
+3. In case you don't already have it, download NLTK's tokenization model.
 
 		python -c "import nltk; nltk.download('punkt')"
 		
@@ -69,7 +69,7 @@ Installation
 		cd ext
 		./load_java_dependencies.sh
 		
-5. Download the [Mate-Tools parsing model](https://docs.google.com/uc?export=download&id=0B-qbj-8rtoUMLUg5NGpBVW9JNkE) (350M) manually and save it as `ext/mate-model/parser-ger.model`. (The script can't get around the large file warning in Google Drive)
+5. Download the [Mate-Tools parsing model](https://docs.google.com/uc?export=download&id=0B-qbj-8rtoUMLUg5NGpBVW9JNkE) (350M) manually and save it as `ext/mate-model/parser-ger.model`. (The script in (4) can't get around the large file warning in Google Drive)
 		
 6. (Optional) To produce graphical output with the parsing script, [graphviz](http://www.graphviz.org/) has to be installed and callable from command line.
 
