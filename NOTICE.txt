@@ -2,6 +2,6 @@
 Copyright 2016
 Ubiquitous Knowledge Processing (UKP) Lab
 Technische Universität Darmstadt
-
 -------------------------------------------------------------------------------
-
+Based on code released by Gabriel Stanovsky under MIT License
+-------------------------------------------------------------------------------
