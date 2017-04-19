@@ -461,6 +461,9 @@ def merge_nodes(gr, node1, node2):
         elif rel_type == 'SVP':
             predicate_form = u''.join([w.word for w in node2.text]) + node1.features.get("Lemma")
             new.features["Lemma"] = predicate_form
+        elif rel_type == 'MO':
+            predicate_form = u' '.join([w.word for w in node2.text]) + ' ' + node1.features.get("Lemma")
+            new.features["Lemma"] = predicate_form
         if "cvc" in new.features:
             new.features["Lemma"] = u' '.join([w.word for w in node1.text]) + ' ' + node2.features["Lemma"]    
             

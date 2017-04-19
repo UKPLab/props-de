@@ -791,14 +791,17 @@ class GraphWrapper(digraph):
     
     def do_acomp(self):
         edges = find_edges(self, lambda((u, v)):self.edge_label((u, v)) == "MO" and u.isPredicate and v.pos().startswith('ADJ'))
-        for predNode,acompNode in edges:
+        # doesn't work as a loop, because the merging changes nodes -> recursive
+        #for predNode,acompNode in edges:
+        if len(edges) > 0:
+            predNode = edges[0][0]
+            acompNode = edges[0][1]
             neighbors = predNode.neighbors()
             subjs = multi_get(neighbors,subject_dependencies)
             if len(subjs)!=1:
-#                 self.types.add("debug")
+    #                 self.types.add("debug")
                 pass
             else:
-                
                 if (predNode.text[0].word in self.modalVerbs) or (predNode.features.get("Lemma","") in self.modalVerbs):
                     subj = subjs[0]
                     self.del_edge((predNode,acompNode))
@@ -811,13 +814,12 @@ class GraphWrapper(digraph):
                         self.del_node(predNode)
                     else:
                         self.types.add("acomp_as_modal")
-                        
-                
+                    self.do_acomp()
                 else:
                     self.types.add("acomp_as_mwe")
                     merge_nodes(gr=self, node1=predNode, node2=acompNode)
-                
-                
+                    self.do_acomp()
+                        
                 
     
     def conditional_specific(self,markNode,markFather,advclNode):
