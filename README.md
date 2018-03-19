@@ -27,7 +27,7 @@ Processing (EMNLP)},
 }
 ```
 
-Contact person: Tobias Falke, lastname(at)aiphes.informatik.tu-darmstadt.de
+Contact person: Tobias Falke, lastname(at)aiphes.tu-darmstadt.de
 
 http://www.aiphes.tu-darmstadt.de/
 
@@ -53,7 +53,7 @@ Installation
 
 1. Clone this repository and navigate into the root folder.
 
-        git clone https://github.com/tbsflk/props-de.git 
+        git clone https://github.com/UKPLab/props-de.git 
 		cd props-de
 
 2. Install required python packages.
