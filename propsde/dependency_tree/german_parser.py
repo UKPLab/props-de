@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import codecs, os
+import codecs, os, sys
 from jpype import *
 from nltk.tokenize import word_tokenize
 
@@ -118,8 +118,13 @@ class ParserDE(object):
         output.close()
 
         # dependency collapsing
-        cmd = 'java -jar ext/org.jobimtext.collapsing.jar -i '+file06+' -o . -sf -l de -r ext/resources/german_modified.txt -f c -np -nt'
+        if 'win' in sys.platform:
+            # workaround for windows: -o folder is interpreted relative to input folder
+            cmd = 'java -jar ext/org.jobimtext.collapsing.jar -i '+file06+' -o . -sf -l de -r ext/resources/german_modified.txt -f c -np -nt'
+        else:
+            cmd = 'java -jar ext/org.jobimtext.collapsing.jar -i '+file06+' -o ' + self.tmp + ' -sf -l de -r ext/resources/german_modified.txt -f c -np -nt'
         print "collapsing"
+        print cmd
         res = os.popen(cmd)
         res.close()
 
