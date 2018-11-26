@@ -22,8 +22,8 @@ Processing (EMNLP)},
   year      = {2016},
   address   = {Austin, Texas},
   publisher = {Association for Computational Linguistics},
-  pages     = {(to appear)},
-  url       = {https://www.ukp.tu-darmstadt.de/publications/details/?no_cache=1&tx_bibtex_pi1%5Bpub_id%5D=TUD-CS-2016-0181}
+  pages     = {892--898},
+  url       = {https://aclweb.org/anthology/D16-1086}
 }
 ```
 
