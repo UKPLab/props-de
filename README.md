@@ -1,6 +1,8 @@
 
 # PropsDE
 
+You can find a Python 3 version of this repository here: https://github.com/ChristianHesels/props-de
+
 What is PropsDE?
 ------------
 PropsDE is an adaption of the original PropS system to the German language. 
